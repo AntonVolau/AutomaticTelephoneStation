@@ -1,0 +1,86 @@
+01/08/2021 02:14:58:  1217322396 was Attached to Station
+01/08/2021 02:14:58:  28469957 was Attached to Station
+01/08/2021 02:14:58:  1413083623 was Attached to Station
+01/08/2021 02:14:58:  1217322396 is Calling 28469957
+01/08/2021 02:14:58:  Billing System Checks 1217322396 Balance
+01/08/2021 02:14:58:  1217322396 has Enough Money to Make Call
+01/08/2021 02:15:05:  1413083623 is Calling 28469957
+01/08/2021 02:15:05:  Billing System Checks 1413083623 Balance
+01/08/2021 02:15:34:  1413083623 has Enough Money to Make Call
+01/08/2021 02:15:44:  28469957 is Busy
+01/08/2021 02:15:53:  28469957 Answered Call from 1217322396
+01/08/2021 02:16:00:  28469957 Ended Call with 1217322396
+01/08/2021 02:16:00:  Base Station Notifies Billing System of Completed call from 1217322396 to 28469957
+01/08/2021 02:16:03:  1413083623 is Calling 123
+01/08/2021 02:16:03:  Billing System Checks 1413083623 Balance
+01/08/2021 02:16:03:  1413083623 has Enough Money to Make Call
+01/08/2021 02:16:06:  123 Does not Exist
+01/08/2021 02:16:06:  1217322396 is Calling 28469957
+01/08/2021 02:16:06:  Billing System Checks 1217322396 Balance
+01/08/2021 02:16:06:  1217322396 has not Enough Money to Make Call
+01/08/2021 02:21:34:  1517908150 was Attached to Station
+01/08/2021 02:21:34:  457687685 was Attached to Station
+01/08/2021 02:21:34:  708034292 was Attached to Station
+01/08/2021 02:21:34:  1517908150 is Calling 457687685
+01/08/2021 02:21:34:  Billing System Checks 1517908150 Balance
+01/08/2021 02:21:34:  1517908150 has Enough Money to Make Call
+01/08/2021 02:21:34:  708034292 is Calling 457687685
+01/08/2021 02:21:34:  Billing System Checks 708034292 Balance
+01/08/2021 02:21:34:  708034292 has Enough Money to Make Call
+01/08/2021 02:21:35:  457687685 is Busy
+01/08/2021 02:21:39:  457687685 Did not Answer Call from 1517908150
+01/08/2021 02:21:39:  Base Station Notifies Billing System of Failed Call from 1517908150 to 457687685
+01/08/2021 02:21:51:  708034292 is Calling 911
+01/08/2021 02:21:51:  Billing System Checks 708034292 Balance
+01/08/2021 02:21:51:  708034292 has Enough Money to Make Call
+01/08/2021 02:21:51:  911 Does not Exist
+01/08/2021 02:21:51:  1517908150 is Calling 457687685
+01/08/2021 02:21:51:  Billing System Checks 1517908150 Balance
+01/08/2021 02:21:51:  1517908150 has Enough Money to Make Call
+01/08/2021 02:21:51:  457687685 Answered Call from 1517908150
+01/08/2021 02:21:54:  457687685 Ended Call with 1517908150
+01/08/2021 02:21:54:  Base Station Notifies Billing System of Completed call from 1517908150 to 457687685
+01/08/2021 02:27:21:  1379922922 was Attached to Station
+01/08/2021 02:27:21:  310383468 was Attached to Station
+01/08/2021 02:27:21:  554295607 was Attached to Station
+01/08/2021 02:27:21:  1379922922 is Calling 310383468
+01/08/2021 02:27:21:  Billing System Checks 1379922922 Balance
+01/08/2021 02:27:21:  1379922922 has Enough Money to Make Call
+01/08/2021 02:27:21:  554295607 is Calling 310383468
+01/08/2021 02:27:21:  Billing System Checks 554295607 Balance
+01/08/2021 02:27:21:  554295607 has Enough Money to Make Call
+01/08/2021 02:27:21:  310383468 is Busy
+01/08/2021 02:27:25:  310383468 Did not Answer Call from 1379922922
+01/08/2021 02:27:25:  Base Station Notifies Billing System of Failed Call from 1379922922 to 310383468
+01/08/2021 02:27:37:  310383468 is Calling 911
+01/08/2021 02:27:37:  Billing System Checks 310383468 Balance
+01/08/2021 02:27:37:  310383468 has Enough Money to Make Call
+01/08/2021 02:27:37:  911 Does not Exist
+01/08/2021 02:27:37:  1379922922 is Calling 310383468
+01/08/2021 02:27:37:  Billing System Checks 1379922922 Balance
+01/08/2021 02:27:37:  1379922922 has Enough Money to Make Call
+01/08/2021 02:27:37:  310383468 Answered Call from 1379922922
+01/08/2021 02:27:40:  310383468 Ended Call with 1379922922
+01/08/2021 02:27:40:  Base Station Notifies Billing System of Completed call from 1379922922 to 310383468
+01/08/2021 15:58:05:  1570246751 was Attached to Station
+01/08/2021 15:58:05:  1581002134 was Attached to Station
+01/08/2021 15:58:05:  321710093 was Attached to Station
+01/08/2021 15:58:05:  1570246751 is Calling 1581002134
+01/08/2021 15:58:05:  Billing System Checks 1570246751 Balance
+01/08/2021 15:58:05:  1570246751 has Enough Money to Make Call
+01/08/2021 15:58:05:  321710093 is Calling 1581002134
+01/08/2021 15:58:05:  Billing System Checks 321710093 Balance
+01/08/2021 15:58:05:  321710093 has Enough Money to Make Call
+01/08/2021 15:58:05:  1581002134 is Busy
+01/08/2021 15:58:09:  1581002134 Did not Answer Call from 1570246751
+01/08/2021 15:58:09:  Base Station Notifies Billing System of Failed Call from 1570246751 to 1581002134
+01/08/2021 15:58:21:  1581002134 is Calling 911
+01/08/2021 15:58:21:  Billing System Checks 1581002134 Balance
+01/08/2021 15:58:21:  1581002134 has Enough Money to Make Call
+01/08/2021 15:58:21:  911 Does not Exist
+01/08/2021 15:58:21:  1570246751 is Calling 1581002134
+01/08/2021 15:58:21:  Billing System Checks 1570246751 Balance
+01/08/2021 15:58:21:  1570246751 has Enough Money to Make Call
+01/08/2021 15:58:21:  1581002134 Answered Call from 1570246751
+01/08/2021 15:58:24:  1581002134 Ended Call with 1570246751
+01/08/2021 15:58:24:  Base Station Notifies Billing System of Completed call from 1570246751 to 1581002134
