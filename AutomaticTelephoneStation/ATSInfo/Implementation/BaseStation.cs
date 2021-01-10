@@ -80,12 +80,12 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
             Logger.WriteLine($"{e.SenderPhoneNumber} is Calling {e.ReceiverPhoneNumber}");
 
-            var checkBalanceEventArgs = new CheckBalanceEvent(e.SenderPhoneNumber);
-            OnCheckBalanceInBillingSystem(checkBalanceEventArgs);
+            var checkBalanceEvent = new CheckBalanceEvent(e.SenderPhoneNumber);
+            OnCheckBalanceInBillingSystem(checkBalanceEvent);
 
             Logger.WriteLine($"Billing System Checks {e.SenderPhoneNumber} Balance");
 
-            if (checkBalanceEventArgs.IsAllowedCall)
+            if (checkBalanceEvent.IsAllowedCall)
             {
                 Logger.WriteLine($"{e.SenderPhoneNumber} has Enough Money to Make Call");
 

@@ -46,17 +46,17 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
             Mapping.MergeTelephoneAndPortBehaviorWhenConnecting(this, port as IPort);
 
-            var connectionEventArgs = new ConnectionEvent(port);
+            var connectionEvent = new ConnectionEvent(port);
 
-            OnConnectedToPort(connectionEventArgs);
+            OnConnectedToPort(connectionEvent);
 
-            if (connectionEventArgs.Port == null)
+            if (connectionEvent.Port == null)
             {
                 DisplayMethod?.Invoke("Another Telephone is Already Connected to This Port");
                 return;
             }
 
-            Mapping.ConnectTelephoneToPort(this, connectionEventArgs.Port as IPort);
+            Mapping.ConnectTelephoneToPort(this, connectionEvent.Port as IPort);
 
             TelephoneStatus = TelephoneStatus.Inaction;
 
@@ -76,13 +76,13 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
                 return;
             }
 
-            var connectionEventArgs = new ConnectionEvent(null);
+            var connectionEvent = new ConnectionEvent(null);
 
-            OnDisconnectedFromPort(connectionEventArgs);
+            OnDisconnectedFromPort(connectionEvent);
 
-            Mapping.SeparateTelephoneAndPortBehaviorWhenConnecting(this, connectionEventArgs.Port as IPort);
+            Mapping.SeparateTelephoneAndPortBehaviorWhenConnecting(this, connectionEvent.Port as IPort);
 
-            Mapping.DisconnectTelephoneFromPort(this, connectionEventArgs.Port as IPort);
+            Mapping.DisconnectTelephoneFromPort(this, connectionEvent.Port as IPort);
 
             TelephoneStatus = TelephoneStatus.Disabled;
 

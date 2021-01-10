@@ -45,7 +45,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 
         public IEnumerable<T> GetCallList<T>(string phoneNumber, Func<T, bool> selector = null) where T : ICall
         {
-            var subscriberCalls = selector != null
+            var abonentCalls = selector != null
                 ? Data.Calls.OfType<T>()
                     .Where(x => x.SenderPhoneNumber == phoneNumber || x.ReceiverPhoneNumber == phoneNumber)
                     .Where(selector)
@@ -53,7 +53,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
                 : Data.Calls.OfType<T>()
                     .Where(x => x.SenderPhoneNumber == phoneNumber || x.ReceiverPhoneNumber == phoneNumber);
 
-            return subscriberCalls;
+            return abonentCalls;
         }
 
         public decimal CalculateCostOfCall(ICall call)

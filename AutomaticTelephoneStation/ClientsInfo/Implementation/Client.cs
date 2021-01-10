@@ -6,8 +6,6 @@
 
         public IContract Contract { get; set; }
 
-        public string Codeword { get; set; }
-
         public Client(IPassport passport)
         {
             Passport = passport;

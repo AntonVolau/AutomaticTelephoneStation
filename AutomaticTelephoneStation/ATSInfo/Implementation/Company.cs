@@ -70,7 +70,8 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             do
             {
                 generatedPhoneNumber = Convert.ToString(random.Next());
-            } while (Contracts.Select(x => x.Equipment.Port.PhoneNumber).Contains(generatedPhoneNumber));
+            } 
+            while (Contracts.Select(x => x.Equipment.Port.PhoneNumber).Contains(generatedPhoneNumber));
 
             return generatedPhoneNumber;
         }

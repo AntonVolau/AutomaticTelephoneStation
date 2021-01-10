@@ -44,15 +44,15 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
             where TCallInfo : ICallInformation<TCall>
             where TCall : ICall
         {
-            var subscriberCalls = CallManagement.GetCallList(phoneNumber, selectorCall);
+            var abonentCalls = CallManagement.GetCallList(phoneNumber, selectorCall);
 
             var callInformationList = selectorCallInfo != null
-                ? subscriberCalls.Select(call =>
+                ? abonentCalls.Select(call =>
                         new CallInformation<TCall>(call, CallManagement.CalculateCostOfCall(call)))
                     .OfType<TCallInfo>()
                     .Where(selectorCallInfo)
                     .ToList()
-                : subscriberCalls.Select(call =>
+                : abonentCalls.Select(call =>
                         new CallInformation<TCall>(call, CallManagement.CalculateCostOfCall(call)))
                     .OfType<TCallInfo>()
                     .ToList();
