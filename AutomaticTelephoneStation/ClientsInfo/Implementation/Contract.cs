@@ -11,8 +11,6 @@ namespace AutomaticTelephoneStation.ClientsInfo.Implementation
 
         public DateTime DateOfContract { get; }
 
-        public ICompany Company { get; }
-
         public IPassport Passport { get; }
 
         public string PhoneNumber { get; }
@@ -21,12 +19,11 @@ namespace AutomaticTelephoneStation.ClientsInfo.Implementation
 
         public IEquipment Equipment { get; }
 
-        public Contract(ICompany company, IPassport individualPassport, string phoneNumber, ITariff tariff,
+        public Contract(IPassport individualPassport, string phoneNumber, ITariff tariff,
             IEquipment clientEquipment)
         {
             ContractNumber = Guid.NewGuid();
             DateOfContract = DateTime.Now;
-            Company = company;
             Passport = individualPassport;
             PhoneNumber = phoneNumber;
             Tariff = tariff;

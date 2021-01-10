@@ -5,13 +5,13 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 {
     internal static class Mapping
     {
-        internal static void ConnectTerminalToPort(ITelephone telephone, IPort port)
+        internal static void ConnectTelephoneToPort(ITelephone telephone, IPort port)
         {
             telephone.NotifyPortAboutOutgoingCall += port.OutgoingCall;
-            port.NotifyTerminalOfFailure += telephone.NotifyUserAboutError;
-            port.NotifyTerminalOfIncomingCall += telephone.NotifyUserAboutIncomingCall;
+            port.NotifyTelephoneOfFailure += telephone.NotifyUserAboutError;
+            port.NotifyTelephoneOfIncomingCall += telephone.NotifyUserAboutIncomingCall;
             telephone.NotifyPortAboutRejectionOfCall += port.RejectCall;
-            port.NotifyTerminalOfRejectionOfCall += telephone.NotifyUserAboutRejectedCall;
+            port.NotifyTelephoneOfRejectionOfCall += telephone.NotifyUserAboutRejectedCall;
             telephone.NotifyPortAboutAnsweredCall += port.AnswerCall;
         }
 
@@ -21,17 +21,17 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
             baseStation.NotifyPortOfFailure += port.ReportError;
             baseStation.NotifyPortOfIncomingCall += port.IncomingCall;
             port.NotifyStationOfRejectionOfCall += baseStation.RejectCall;
-            baseStation.NotifyPortOfRejectionOfCall += port.InformTerminalAboutRejectionOfCall;
+            baseStation.NotifyPortOfRejectionOfCall += port.InformTelephoneAboutRejectionOfCall;
             port.NotifyStationOfAnsweredCall += baseStation.AnswerCall;
         }
 
-        internal static void DisconnectTerminalFromPort(ITelephone telephone, IPort port)
+        internal static void DisconnectTelephoneFromPort(ITelephone telephone, IPort port)
         {
             telephone.NotifyPortAboutOutgoingCall -= port.OutgoingCall;
-            port.NotifyTerminalOfFailure -= telephone.NotifyUserAboutError;
-            port.NotifyTerminalOfIncomingCall -= telephone.NotifyUserAboutIncomingCall;
+            port.NotifyTelephoneOfFailure -= telephone.NotifyUserAboutError;
+            port.NotifyTelephoneOfIncomingCall -= telephone.NotifyUserAboutIncomingCall;
             telephone.NotifyPortAboutRejectionOfCall -= port.RejectCall;
-            port.NotifyTerminalOfRejectionOfCall -= telephone.NotifyUserAboutRejectedCall;
+            port.NotifyTelephoneOfRejectionOfCall -= telephone.NotifyUserAboutRejectedCall;
             telephone.NotifyPortAboutAnsweredCall -= port.AnswerCall;
         }
 
@@ -41,20 +41,20 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
             baseStation.NotifyPortOfFailure -= port.ReportError;
             baseStation.NotifyPortOfIncomingCall -= port.IncomingCall;
             port.NotifyStationOfRejectionOfCall -= baseStation.RejectCall;
-            baseStation.NotifyPortOfRejectionOfCall -= port.InformTerminalAboutRejectionOfCall;
+            baseStation.NotifyPortOfRejectionOfCall -= port.InformTelephoneAboutRejectionOfCall;
             port.NotifyStationOfAnsweredCall -= baseStation.AnswerCall;
         }
 
-        internal static void MergeTerminalAndPortBehaviorWhenConnecting(ITelephone telephone, IPort port)
+        internal static void MergeTelephoneAndPortBehaviorWhenConnecting(ITelephone telephone, IPort port)
         {
-            telephone.ConnectedToPort += port.ConnectToTerminal;
-            telephone.DisconnectedFromPort += port.DisconnectFromTerminal;
+            telephone.ConnectedToPort += port.ConnectToTelephone;
+            telephone.DisconnectedFromPort += port.DisconnectFromTelephone;
         }
 
-        internal static void SeparateTerminalAndPortBehaviorWhenConnecting(ITelephone telephone, IPort port)
+        internal static void SeparateTelephoneAndPortBehaviorWhenConnecting(ITelephone telephone, IPort port)
         {
-            telephone.ConnectedToPort -= port.ConnectToTerminal;
-            telephone.DisconnectedFromPort -= port.DisconnectFromTerminal;
+            telephone.ConnectedToPort -= port.ConnectToTelephone;
+            telephone.DisconnectedFromPort -= port.DisconnectFromTelephone;
         }
     }
 }

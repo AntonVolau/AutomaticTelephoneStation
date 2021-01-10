@@ -25,9 +25,9 @@ namespace AutomaticTelephoneStation
             var client2 = new Client(new Passport("Mark", "M"));
             var client3 = new Client(new Passport("Alexey", "S"));
 
-            client1.Contract = company.EnterIntoContract(client1, tariff);
-            client2.Contract = company.EnterIntoContract(client2, tariff);
-            client3.Contract = company.EnterIntoContract(client3, tariff);
+            client1.Contract = company.SignContract(client1, tariff);
+            client2.Contract = company.SignContract(client2, tariff);
+            client3.Contract = company.SignContract(client3, tariff);
 
             var telephone1 = client1.Contract.Equipment.Telephone;
             var telephone2 = client2.Contract.Equipment.Telephone;
@@ -51,9 +51,9 @@ namespace AutomaticTelephoneStation
 
             telephone3.Call(port2.PhoneNumber);
 
-            Thread.Sleep(10000);
-            telephone1.Answer();
             Thread.Sleep(6000);
+            telephone1.Answer();
+            Thread.Sleep(5000);
             telephone3.Reject();
 
             telephone2.Call("911");
@@ -77,7 +77,7 @@ namespace AutomaticTelephoneStation
             Console.WriteLine(
                 company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber,
                     x => x.CallCost > 0.001m && x.CallCost < 3m,
-                    y => y.Duration > new TimeSpan(0, 0, 0, 1) && y.Duration < new TimeSpan(0, 0, 0, 4)));
+                    y => y.Duration > new TimeSpan(0, 0, 0, 1) && y.Duration < new TimeSpan(0, 0, 0, 6)));
 
             Console.ReadKey();
         }

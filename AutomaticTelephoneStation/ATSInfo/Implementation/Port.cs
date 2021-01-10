@@ -12,11 +12,11 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         public event EventHandler<AnsweredCallEvent> NotifyStationOfAnsweredCall;
 
-        public event EventHandler<RejectedCallEvent> NotifyTerminalOfRejectionOfCall;
+        public event EventHandler<RejectedCallEvent> NotifyTelephoneOfRejectionOfCall;
 
-        public event EventHandler<FailureEvent> NotifyTerminalOfFailure;
+        public event EventHandler<FailureEvent> NotifyTelephoneOfFailure;
 
-        public event EventHandler<IncomingCallEvent> NotifyTerminalOfIncomingCall;
+        public event EventHandler<IncomingCallEvent> NotifyTelephoneOfIncomingCall;
 
         public string PhoneNumber { get; }
 
@@ -31,7 +31,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             PortStatus = PortStatus.SwitchedOff;
         }
 
-        public void ConnectToTerminal(object sender, ConnectionEvent e)
+        public void ConnectToTelephone(object sender, ConnectionEvent e)
         {
             if (PortStatus == PortStatus.SwitchedOff)
             {
@@ -43,7 +43,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             }
         }
 
-        public void DisconnectFromTerminal(object sender, ConnectionEvent e)
+        public void DisconnectFromTelephone(object sender, ConnectionEvent e)
         {
             OnNotifyStationAboutRejectionOfCall(new RejectedCallEvent(PhoneNumber)
             { CallRejectionTime = DateTime.Now });
@@ -65,7 +65,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
         {
             PortStatus = PortStatus.Busy;
 
-            OnNotifyTerminalOfIncomingCall(e);
+            OnNotifyTelephoneOfIncomingCall(e);
         }
 
         public void AnswerCall(object sender, AnsweredCallEvent e)
@@ -81,18 +81,18 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             { CallRejectionTime = e.CallRejectionTime });
         }
 
-        public void InformTerminalAboutRejectionOfCall(object sender, RejectedCallEvent e)
+        public void InformTelephoneAboutRejectionOfCall(object sender, RejectedCallEvent e)
         {
             PortStatus = PortStatus.Free;
 
-            OnNotifyTerminalOfRejectionOfCall(e);
+            OnNotifyTelephoneOfRejectionOfCall(e);
         }
 
         public void ReportError(object sender, FailureEvent e)
         {
             PortStatus = PortStatus.Free;
 
-            OnNotifyTerminalOfFailure(e);
+            OnNotifyTelephoneOfFailure(e);
         }
 
         private void OnNotifyStationOfOutgoingCall(OutgoingCallEvent e)
@@ -100,14 +100,14 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             NotifyStationOfOutgoingCall?.Invoke(this, e);
         }
 
-        private void OnNotifyTerminalOfFailure(FailureEvent e)
+        private void OnNotifyTelephoneOfFailure(FailureEvent e)
         {
-            NotifyTerminalOfFailure?.Invoke(this, e);
+            NotifyTelephoneOfFailure?.Invoke(this, e);
         }
 
-        private void OnNotifyTerminalOfIncomingCall(IncomingCallEvent e)
+        private void OnNotifyTelephoneOfIncomingCall(IncomingCallEvent e)
         {
-            NotifyTerminalOfIncomingCall?.Invoke(this, e);
+            NotifyTelephoneOfIncomingCall?.Invoke(this, e);
         }
 
         private void OnNotifyStationAboutRejectionOfCall(RejectedCallEvent e)
@@ -115,9 +115,9 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             NotifyStationOfRejectionOfCall?.Invoke(this, e);
         }
 
-        private void OnNotifyTerminalOfRejectionOfCall(RejectedCallEvent e)
+        private void OnNotifyTelephoneOfRejectionOfCall(RejectedCallEvent e)
         {
-            NotifyTerminalOfRejectionOfCall?.Invoke(this, e);
+            NotifyTelephoneOfRejectionOfCall?.Invoke(this, e);
         }
 
         private void OnNotifyStationOfAnsweredOfCall(AnsweredCallEvent e)

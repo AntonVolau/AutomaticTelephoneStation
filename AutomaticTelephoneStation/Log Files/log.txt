@@ -84,3 +84,47 @@
 01/08/2021 15:58:21:  1581002134 Answered Call from 1570246751
 01/08/2021 15:58:24:  1581002134 Ended Call with 1570246751
 01/08/2021 15:58:24:  Base Station Notifies Billing System of Completed call from 1570246751 to 1581002134
+01/08/2021 16:42:02:  1478069554 was Attached to Station
+01/08/2021 16:42:02:  1174821260 was Attached to Station
+01/08/2021 16:42:02:  253937901 was Attached to Station
+01/08/2021 16:42:03:  1478069554 is Calling 1174821260
+01/08/2021 16:42:03:  Billing System Checks 1478069554 Balance
+01/08/2021 16:42:03:  1478069554 has Enough Money to Make Call
+01/08/2021 16:42:03:  253937901 is Calling 1174821260
+01/08/2021 16:42:03:  Billing System Checks 253937901 Balance
+01/08/2021 16:42:03:  253937901 has Enough Money to Make Call
+01/08/2021 16:42:03:  1174821260 is Busy
+01/08/2021 16:42:07:  1174821260 Did not Answer Call from 1478069554
+01/08/2021 16:42:07:  Base Station Notifies Billing System of Failed Call from 1478069554 to 1174821260
+01/08/2021 16:42:19:  1174821260 is Calling 911
+01/08/2021 16:42:19:  Billing System Checks 1174821260 Balance
+01/08/2021 16:42:19:  1174821260 has Enough Money to Make Call
+01/08/2021 16:42:19:  911 Does not Exist
+01/08/2021 16:42:19:  1478069554 is Calling 1174821260
+01/08/2021 16:42:19:  Billing System Checks 1478069554 Balance
+01/08/2021 16:42:19:  1478069554 has Enough Money to Make Call
+01/08/2021 16:42:19:  1174821260 Answered Call from 1478069554
+01/08/2021 16:42:22:  1174821260 Ended Call with 1478069554
+01/08/2021 16:42:22:  Base Station Notifies Billing System of Completed call from 1478069554 to 1174821260
+01/08/2021 16:44:06:  717659753 was Attached to Station
+01/08/2021 16:44:06:  1155301640 was Attached to Station
+01/08/2021 16:44:06:  745796261 was Attached to Station
+01/08/2021 16:44:06:  717659753 is Calling 1155301640
+01/08/2021 16:44:06:  Billing System Checks 717659753 Balance
+01/08/2021 16:44:06:  717659753 has Enough Money to Make Call
+01/08/2021 16:44:06:  745796261 is Calling 1155301640
+01/08/2021 16:44:06:  Billing System Checks 745796261 Balance
+01/08/2021 16:44:06:  745796261 has Enough Money to Make Call
+01/08/2021 16:44:06:  1155301640 is Busy
+01/08/2021 16:44:10:  1155301640 Did not Answer Call from 717659753
+01/08/2021 16:44:10:  Base Station Notifies Billing System of Failed Call from 717659753 to 1155301640
+01/08/2021 16:44:17:  1155301640 is Calling 911
+01/08/2021 16:44:17:  Billing System Checks 1155301640 Balance
+01/08/2021 16:44:17:  1155301640 has Enough Money to Make Call
+01/08/2021 16:44:17:  911 Does not Exist
+01/08/2021 16:44:17:  717659753 is Calling 1155301640
+01/08/2021 16:44:17:  Billing System Checks 717659753 Balance
+01/08/2021 16:44:17:  717659753 has Enough Money to Make Call
+01/08/2021 16:44:17:  1155301640 Answered Call from 717659753
+01/08/2021 16:44:20:  1155301640 Ended Call with 717659753
+01/08/2021 16:44:20:  Base Station Notifies Billing System of Completed call from 717659753 to 1155301640

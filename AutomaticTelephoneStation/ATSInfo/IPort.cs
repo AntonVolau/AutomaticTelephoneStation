@@ -18,15 +18,15 @@ namespace AutomaticTelephoneStation.ATSInfo
 
         event EventHandler<AnsweredCallEvent> NotifyStationOfAnsweredCall;
 
-        event EventHandler<RejectedCallEvent> NotifyTerminalOfRejectionOfCall;
+        event EventHandler<RejectedCallEvent> NotifyTelephoneOfRejectionOfCall;
 
-        event EventHandler<FailureEvent> NotifyTerminalOfFailure;
+        event EventHandler<FailureEvent> NotifyTelephoneOfFailure;
 
-        event EventHandler<IncomingCallEvent> NotifyTerminalOfIncomingCall;
+        event EventHandler<IncomingCallEvent> NotifyTelephoneOfIncomingCall;
 
-        void ConnectToTerminal(object sender, ConnectionEvent e);
+        void ConnectToTelephone(object sender, ConnectionEvent e);
 
-        void DisconnectFromTerminal(object sender, ConnectionEvent e);
+        void DisconnectFromTelephone(object sender, ConnectionEvent e);
 
         void OutgoingCall(object sender, OutgoingCallEvent e);
 
@@ -36,7 +36,7 @@ namespace AutomaticTelephoneStation.ATSInfo
 
         void RejectCall(object sender, RejectedCallEvent e);
 
-        void InformTerminalAboutRejectionOfCall(object sender, RejectedCallEvent e);
+        void InformTelephoneAboutRejectionOfCall(object sender, RejectedCallEvent e);
 
         void ReportError(object sender, FailureEvent e);
     }

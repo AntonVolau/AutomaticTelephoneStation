@@ -11,8 +11,6 @@ namespace AutomaticTelephoneStation.ClientsInfo
 
         DateTime DateOfContract { get; }
 
-        ICompany Company { get; }
-
         IPassport Passport { get; }
 
         string PhoneNumber { get; }

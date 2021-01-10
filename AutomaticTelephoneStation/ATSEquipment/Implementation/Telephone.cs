@@ -44,7 +44,7 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
                 return;
             }
 
-            Mapping.MergeTerminalAndPortBehaviorWhenConnecting(this, port as IPort);
+            Mapping.MergeTelephoneAndPortBehaviorWhenConnecting(this, port as IPort);
 
             var connectionEventArgs = new ConnectionEvent(port);
 
@@ -56,7 +56,7 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
                 return;
             }
 
-            Mapping.ConnectTerminalToPort(this, connectionEventArgs.Port as IPort);
+            Mapping.ConnectTelephoneToPort(this, connectionEventArgs.Port as IPort);
 
             TelephoneStatus = TelephoneStatus.Inaction;
 
@@ -80,9 +80,9 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
             OnDisconnectedFromPort(connectionEventArgs);
 
-            Mapping.SeparateTerminalAndPortBehaviorWhenConnecting(this, connectionEventArgs.Port as IPort);
+            Mapping.SeparateTelephoneAndPortBehaviorWhenConnecting(this, connectionEventArgs.Port as IPort);
 
-            Mapping.DisconnectTerminalFromPort(this, connectionEventArgs.Port as IPort);
+            Mapping.DisconnectTelephoneFromPort(this, connectionEventArgs.Port as IPort);
 
             TelephoneStatus = TelephoneStatus.Disabled;
 
