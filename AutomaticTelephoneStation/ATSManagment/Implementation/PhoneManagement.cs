@@ -16,7 +16,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 
         public IPhone GetPhoneOnNumber(string phoneNumber)
         {
-            return Data.Phones.FirstOrDefault(x => x.PhoneNumber == phoneNumber) ??
+            return Data.Phones.FirstOrDefault(x => x.PhoneNumber == phoneNumber) ?? // return phone number that satisfy the condition ot throw exception if there are non
                    throw new Exception("Phone number doesn't exist");
         }
 

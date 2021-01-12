@@ -58,7 +58,10 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 
         public decimal CalculateCostOfCall(ICall call)
         {
-            if (!(call is IAnsweredCall answeredCall)) return 0;
+            if (!(call is IAnsweredCall answeredCall))
+            {
+                return 0;
+            }
 
             var phone = PhoneManagement.GetPhoneOnNumber(answeredCall.SenderPhoneNumber);
             var duration = answeredCall.Duration;

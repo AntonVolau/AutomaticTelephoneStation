@@ -42,7 +42,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             var tariff = selectedTariff;
             var Equipment = new Equipment(new Telephone(), new Port(phoneNumber));
 
-            var newContract = new Contract(passport, phoneNumber, tariff, Equipment);
+            var newContract = new Contract(company, passport, phoneNumber, tariff, Equipment);
 
             Contracts.Add(newContract);
 

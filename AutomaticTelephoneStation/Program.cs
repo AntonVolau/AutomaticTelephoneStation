@@ -52,9 +52,9 @@ namespace AutomaticTelephoneStation
             telephone3.Call(port2.PhoneNumber);
 
             Thread.Sleep(6000);
-            telephone1.Answer();
+            telephone2.Answer();
             Thread.Sleep(5000);
-            telephone3.Reject();
+            telephone2.Reject();
 
             telephone2.Call("911");
 
@@ -71,13 +71,33 @@ namespace AutomaticTelephoneStation
             telephone1.Call(port2.PhoneNumber);
 
             telephone2.Answer();
-            Thread.Sleep(3000);
+            Thread.Sleep(10000);
             telephone2.Reject();
+
+            // company.Billing.BalanceOperation.ReduceBalance(client1.Contract.PhoneNumber, 100);
+
+            Console.WriteLine(company.Billing.BalanceOperation.GetBalance(client1.Contract.PhoneNumber));
+
+            telephone1.Call(port3.PhoneNumber);
+            telephone3.Answer();
+            Thread.Sleep(5000);
+            telephone3.Reject();
+
+            for (int i = 1; i < 10; i++)
+            {
+                telephone1.Call(port2.PhoneNumber);
+                telephone2.Answer();
+                Thread.Sleep(i * 1000);
+                telephone2.Reject();
+            }
 
             Console.WriteLine(
                 company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber,
                     x => x.CallCost > 0.001m && x.CallCost < 3m,
-                    y => y.Duration > new TimeSpan(0, 0, 0, 1) && y.Duration < new TimeSpan(0, 0, 0, 6)));
+                    y => y.Duration > new TimeSpan(0, 0, 0, 1) && y.Duration < new TimeSpan(0, 0, 1, 0)));
+
+            Console.WriteLine(
+                company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber, x => x.Call.CallStartTime < DateTime.Now));
 
             Console.ReadKey();
         }
