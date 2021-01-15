@@ -4,7 +4,7 @@ namespace AutomaticTelephoneStation.ATSManagment
 {
     public interface IPhoneManagement
     {
-        IPhone GetPhoneOnNumber(string phoneNumber);
+        IPhone GetPhoneByNumber(string phoneNumber);
 
         void PutPhoneOnRecord(string phoneNumber, ITariff tariff);
     }

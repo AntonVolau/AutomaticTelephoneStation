@@ -14,7 +14,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
             Data = data;
         }
 
-        public IPhone GetPhoneOnNumber(string phoneNumber)
+        public IPhone GetPhoneByNumber(string phoneNumber)
         {
             return Data.Phones.FirstOrDefault(x => x.PhoneNumber == phoneNumber) ?? // return phone number that satisfy the condition ot throw exception if there are non
                    throw new Exception("Phone number doesn't exist");
@@ -22,7 +22,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 
         public void PutPhoneOnRecord(string phoneNumber, ITariff tariff)
         {
-            Data.Phones.Add(new Phone(phoneNumber, tariff));
+            Data.Phones.Add(new Phone(phoneNumber, tariff)); // Data represent a collection of phones and collection of calls. This method includes new phone for tracking its events and keeping log lines 
         }
     }
 }

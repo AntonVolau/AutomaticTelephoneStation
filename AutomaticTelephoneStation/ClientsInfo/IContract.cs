@@ -1,5 +1,4 @@
 ﻿using AutomaticTelephoneStation.ATSEquipment;
-using AutomaticTelephoneStation.ATSInfo;
 using AutomaticTelephoneStation.ATSManagment;
 using System;
 

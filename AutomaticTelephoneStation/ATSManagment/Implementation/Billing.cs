@@ -40,7 +40,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
         }
 
         public ICallReport<TCallInfo, TCall> GetCallReport<TCallInfo, TCall>(string phoneNumber,
-            Func<TCallInfo, bool> selectorCallInfo = null, Func<TCall, bool> selectorCall = null)
+            Func<TCallInfo, bool> selectorCallInfo = null, Func<TCall, bool> selectorCall = null) // Func delegates will filter list of calls by certain conditions
             where TCallInfo : ICallInformation<TCall>
             where TCall : ICall
         {

@@ -15,37 +15,37 @@ namespace AutomaticTelephoneStation
     {
         static void Main()
         {
-            Action<string> displayMethod = Console.WriteLine;
+            Action<string> displayMethod = Console.WriteLine; // set delegate for standart log writing method
 
-            var company = new Company("ATS", new Billing(new List<ITariff> { new Tariff() }), new BaseStation());
+            var company = new Company("ATS", new Billing(new List<ITariff> { new Tariff() }), new BaseStation()); // initialize company with name, billing system and base station.
 
-            var tariff = company.Billing.Tariffs.First();
+            var tariff = company.Billing.Tariffs.FirstOrDefault(); // select tariff from the list of tariffs available in company
 
-            var client1 = new Client(new Passport("Toha", "V"));
-            var client2 = new Client(new Passport("Mark", "M"));
-            var client3 = new Client(new Passport("Alexey", "S"));
+            var client1 = new Client(new Passport("Toha", "V")); // initialize client 1
+            var client2 = new Client(new Passport("Mark", "M")); // initialize client 2
+            var client3 = new Client(new Passport("Alexey", "S")); // initialize client 3
 
-            client1.Contract = company.SignContract(client1, tariff);
+            client1.Contract = company.SignContract(client1, tariff); // Contract sign performs equipment delivery and signing client to billing system for log writing purposes
             client2.Contract = company.SignContract(client2, tariff);
             client3.Contract = company.SignContract(client3, tariff);
 
-            var telephone1 = client1.Contract.Equipment.Telephone;
-            var telephone2 = client2.Contract.Equipment.Telephone;
-            var telephone3 = client3.Contract.Equipment.Telephone;
+            var telephone1 = client1.Contract.Equipment.Telephone; // initialize telephone, that 1 client owns
+            var telephone2 = client2.Contract.Equipment.Telephone; // initialize telephone, that 2 client owns
+            var telephone3 = client3.Contract.Equipment.Telephone; // initialize telephone, that 3 client owns
 
-            var port1 = client1.Contract.Equipment.Port;
-            var port2 = client2.Contract.Equipment.Port;
-            var port3 = client3.Contract.Equipment.Port;
+            var port1 = client1.Contract.Equipment.Port; // initialize port, that 1 client owns
+            var port2 = client2.Contract.Equipment.Port; // initialize port, that 2 client owns
+            var port3 = client3.Contract.Equipment.Port; // initialize port, that 3 client owns
 
-            telephone1.SetDisplayMethod(displayMethod);
-            telephone2.SetDisplayMethod(displayMethod);
-            telephone3.SetDisplayMethod(displayMethod);
+            telephone1.SetDisplayMethod(displayMethod); // set display method to throw notifications by console messages for first telephone (by using generic Action delegate)
+            telephone2.SetDisplayMethod(displayMethod); // set display method to throw notifications by console messages for second telephone (by using generic Action delegate)
+            telephone3.SetDisplayMethod(displayMethod); // set display method to throw notifications by console messages for third telephone (by using generic Action delegate)
 
-            company.BaseStation.AddPorts(new List<IPort> { port1, port2, port3 });
+            company.BaseStation.AddPorts(new List<IPort> { port1, port2, port3 }); // initializing new list of existing ports and connect them to BaseStation
 
-            telephone1.ConnectToPort(port1);
-            telephone2.ConnectToPort(port2);
-            telephone3.ConnectToPort(port3);
+            telephone1.ConnectToPort(port1); // connect telephone of first client to the port of the same user
+            telephone2.ConnectToPort(port2); // connect telephone of second client to the port of the same user
+            telephone3.ConnectToPort(port3); // connect telephone of third client to the port of the same user
 
             telephone1.Call(port2.PhoneNumber);
 
@@ -83,6 +83,8 @@ namespace AutomaticTelephoneStation
             Thread.Sleep(5000);
             telephone3.Reject();
 
+            telephone3.DisconnectFromPort();
+
             for (int i = 1; i < 10; i++)
             {
                 telephone1.Call(port2.PhoneNumber);
@@ -94,10 +96,11 @@ namespace AutomaticTelephoneStation
             Console.WriteLine(
                 company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber,
                     x => x.CallCost > 0.001m && x.CallCost < 3m,
-                    y => y.Duration > new TimeSpan(0, 0, 0, 1) && y.Duration < new TimeSpan(0, 0, 1, 0)));
+                    y => y.Duration > new TimeSpan(0, 0, 0, 1) && y.Duration < new TimeSpan(0, 0, 1, 0))); // get log report by specific conditions
 
             Console.WriteLine(
-                company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber, x => x.Call.CallStartTime < DateTime.Now));
+                company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber,
+                x => x.Call.CallStartTime < DateTime.Now)); // get full call report
 
             Console.ReadKey();
         }

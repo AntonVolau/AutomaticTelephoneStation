@@ -46,13 +46,13 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
             Mapping.MergeTelephoneAndPortBehaviorWhenConnecting(this, port as IPort);
 
-            var connectionEvent = new ConnectionEvent(port);
+            var connectionEvent = new ConnectionEvent(port); // initialize new connection event
 
-            OnConnectedToPort(connectionEvent);
+            OnConnectedToPort(connectionEvent); // invoke connection event (switch port status)
 
             if (connectionEvent.Port == null)
             {
-                DisplayMethod?.Invoke("Another Telephone is Already Connected to This Port");
+                DisplayMethod?.Invoke("Another Telephone is Already Connected to This Port"); 
                 return;
             }
 
@@ -60,19 +60,19 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
             TelephoneStatus = TelephoneStatus.Inaction;
 
-            DisplayMethod?.Invoke("Connected");
+            DisplayMethod?.Invoke($"{this.SerialNumber} was connected to {port.IdentificationNumber}");
         }
 
         private bool IsPossibleToConnect(IPort port)
         {
-            return port != null && TelephoneStatus == TelephoneStatus.Disabled;
+            return port != null && TelephoneStatus == TelephoneStatus.Disabled; // in order to attach phone to port, port must exist and telephone shouldn't be connected to another port
         }
 
         public void DisconnectFromPort()
         {
             if (TelephoneStatus == TelephoneStatus.Disabled)
             {
-                DisplayMethod?.Invoke("Telephone is Already Disconnected");
+                DisplayMethod?.Invoke($"{this.SerialNumber} is Already Disconnected");
                 return;
             }
 
@@ -80,27 +80,33 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
             OnDisconnectedFromPort(connectionEvent);
 
-            Mapping.SeparateTelephoneAndPortBehaviorWhenConnecting(this, connectionEvent.Port as IPort);
+            Mapping.SeparateTelephoneAndPortBehaviorWhenDisconnecting(this, connectionEvent.Port as IPort);
 
             Mapping.DisconnectTelephoneFromPort(this, connectionEvent.Port as IPort);
 
             TelephoneStatus = TelephoneStatus.Disabled;
 
-            DisplayMethod?.Invoke("Disconnected");
+            DisplayMethod?.Invoke($"{this.SerialNumber} was disconnected");
         }
 
         public void Call(string receiverPhoneNumber)
         {
-            if (TelephoneStatus != TelephoneStatus.Inaction) return;
+            if (TelephoneStatus != TelephoneStatus.Inaction)
+            {
+                return;
+            }
 
             TelephoneStatus = TelephoneStatus.OutgoingCall;
 
-            OnNotifyPortOfOutgoingCall(new OutgoingCallEvent("", receiverPhoneNumber));
+            OnNotifyPortOfOutgoingCall(new OutgoingCallEvent("", receiverPhoneNumber)); // Method to invoke event that write line with information about call, checks balance and connect port if call is allowed
         }
 
         public void Answer()
         {
-            if (TelephoneStatus != TelephoneStatus.IncomingCall) return;
+            if (TelephoneStatus != TelephoneStatus.IncomingCall)
+            {
+                return;
+            }
 
             TelephoneStatus = TelephoneStatus.Conversation;
 
@@ -111,7 +117,10 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
         public void Reject()
         {
-            if (TelephoneStatus == TelephoneStatus.Inaction || TelephoneStatus == TelephoneStatus.Disabled) return;
+            if (TelephoneStatus == TelephoneStatus.Inaction || TelephoneStatus == TelephoneStatus.Disabled)
+            {
+                return;
+            }
 
             TelephoneStatus = TelephoneStatus.Inaction;
 
@@ -172,12 +181,12 @@ namespace AutomaticTelephoneStation.ATSEquipment.Implementation
 
         private void OnNotifyPortOfOutgoingCall(OutgoingCallEvent e)
         {
-            NotifyPortAboutOutgoingCall?.Invoke(this, e);
+            NotifyPortAboutOutgoingCall?.Invoke(this, e); // Invocation of event that checks 
         }
 
         private void OnConnectedToPort(ConnectionEvent e)
         {
-            ConnectedToPort?.Invoke(this, e);
+            ConnectedToPort?.Invoke(this, e); // this invokation switches port status from Switched off to Free, meaning it can call and receive calls
         }
 
         private void OnDisconnectedFromPort(ConnectionEvent e)

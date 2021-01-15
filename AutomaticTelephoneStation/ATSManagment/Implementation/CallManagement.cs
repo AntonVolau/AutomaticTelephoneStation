@@ -43,7 +43,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
             }
         }
 
-        public IEnumerable<T> GetCallList<T>(string phoneNumber, Func<T, bool> selector = null) where T : ICall
+        public IEnumerable<T> GetCallList<T>(string phoneNumber, Func<T, bool> selector = null) where T : ICall // selector will filter our call list by including only calls that was answered
         {
             var abonentCalls = selector != null
                 ? Data.Calls.OfType<T>()
@@ -60,16 +60,21 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
         {
             if (!(call is IAnsweredCall answeredCall))
             {
-                return 0;
+                return 0; // Call costs nothing if it wasnt answered
             }
 
-            var phone = PhoneManagement.GetPhoneOnNumber(answeredCall.SenderPhoneNumber);
+            var phone = PhoneManagement.GetPhoneByNumber(answeredCall.SenderPhoneNumber);
             var duration = answeredCall.Duration;
-            var callDurationInSeconds = duration.Hours * 3600 + duration.Minutes * 60 + duration.Seconds;
-            var pricePerSecond = phone.Tariff.PricePerMinute / 60;
-            var callCost = callDurationInSeconds * pricePerSecond;
-
-            return callCost;
+            var callDuration = duration.Hours * 3600 + duration.Minutes * 60;
+            var callCost = phone.Tariff.PricePerMinute * callDuration;
+            if (callDuration < 1)
+            {
+                return phone.Tariff.PricePerMinute;
+            }
+            else
+            {
+                return callCost;
+            }
         }
     }
 }

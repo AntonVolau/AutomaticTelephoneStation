@@ -40,7 +40,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             CancellationTime = cancellationTime;
         }
 
-        public void AddPorts(IEnumerable<IPort> ports)
+        public void AddPorts(IEnumerable<IPort> ports) // nethod to attach several ports to base station
         {
             foreach (var port in ports)
             {
@@ -48,7 +48,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             }
         }
 
-        public void RemovePorts(IEnumerable<IPort> ports)
+        public void RemovePorts(IEnumerable<IPort> ports) // method to remove several ports from base station
         {
             foreach (var port in ports)
             {
@@ -58,11 +58,11 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         public void AddPort(IPort port)
         {
-            Mapping.ConnectPortToStation(port as IPort, this);
+            Mapping.ConnectPortToStation(port as IPort, this); // in mapping class we can include and exclude methods to events
 
-            Ports.Add(port);
+            Ports.Add(port); // include port to main list of ports
 
-            Logger.WriteLine($"{port.PhoneNumber} was Attached to Station");
+            Logger.WriteLine($"{port.PhoneNumber} was Attached to Station"); // Make log line that will inform us about phone attachment to port
         }
 
         public void RemovePort(IPort port)
@@ -80,8 +80,8 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
             Logger.WriteLine($"{e.SenderPhoneNumber} is Calling {e.ReceiverPhoneNumber}");
 
-            var checkBalanceEvent = new CheckBalanceEvent(e.SenderPhoneNumber);
-            OnCheckBalanceInBillingSystem(checkBalanceEvent);
+            var checkBalanceEvent = new CheckBalanceEvent(e.SenderPhoneNumber); // create an event object for check balance opperations
+            OnCheckBalanceInBillingSystem(checkBalanceEvent); // Method that checks if abonent have enough balance to make a call
 
             Logger.WriteLine($"Billing System Checks {e.SenderPhoneNumber} Balance");
 
@@ -102,7 +102,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         private void ConnectPorts(IPort senderPort, OutgoingCallEvent e)
         {
-            var receiverPort = Ports.FirstOrDefault(x => x.PhoneNumber == e.ReceiverPhoneNumber);
+            var receiverPort = Ports.FirstOrDefault(x => x.PhoneNumber == e.ReceiverPhoneNumber); 
 
             if (receiverPort == null || senderPort == null)
             {
@@ -289,7 +289,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         private void OnCheckBalanceInBillingSystem(CheckBalanceEvent e)
         {
-            CheckBalanceInBillingSystem?.Invoke(this, e);
+            CheckBalanceInBillingSystem?.Invoke(this, e); // invokation of event that checks balance and return boolean type if call can be made or not
         }
     }
 }

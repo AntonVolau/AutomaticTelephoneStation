@@ -54,7 +54,10 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         public void OutgoingCall(object sender, OutgoingCallEvent e)
         {
-            if (PortStatus != PortStatus.Free || PhoneNumber == e.ReceiverPhoneNumber) return;
+            if (PortStatus != PortStatus.Free || PhoneNumber == e.ReceiverPhoneNumber)
+            {
+                return;
+            }
 
             PortStatus = PortStatus.Busy;
 
@@ -65,7 +68,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
         {
             PortStatus = PortStatus.Busy;
 
-            OnNotifyTelephoneOfIncomingCall(e);
+            OnNotifyTelephoneOfIncomingCall(e); 
         }
 
         public void AnswerCall(object sender, AnsweredCallEvent e)

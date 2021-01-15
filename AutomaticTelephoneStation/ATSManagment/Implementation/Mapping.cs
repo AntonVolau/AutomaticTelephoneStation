@@ -3,9 +3,9 @@ using AutomaticTelephoneStation.ATSInfo;
 
 namespace AutomaticTelephoneStation.ATSManagment.Implementation
 {
-    internal static class Mapping
+    internal static class Mapping // in mapping class we can include and exclude methods to events
     {
-        internal static void ConnectTelephoneToPort(ITelephone telephone, IPort port)
+        internal static void ConnectTelephoneToPort(ITelephone telephone, IPort port) // attach methods to events in case of telephone connectiong to port
         {
             telephone.NotifyPortAboutOutgoingCall += port.OutgoingCall;
             port.NotifyTelephoneOfFailure += telephone.NotifyUserAboutError;
@@ -51,7 +51,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
             telephone.DisconnectedFromPort += port.DisconnectFromTelephone;
         }
 
-        internal static void SeparateTelephoneAndPortBehaviorWhenConnecting(ITelephone telephone, IPort port)
+        internal static void SeparateTelephoneAndPortBehaviorWhenDisconnecting(ITelephone telephone, IPort port)
         {
             telephone.ConnectedToPort -= port.ConnectToTelephone;
             telephone.DisconnectedFromPort -= port.DisconnectFromTelephone;
