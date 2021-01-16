@@ -37,7 +37,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             PortTimeout = new Dictionary<IPort, Timer>();
             CallsInProgress = new List<ICall>();
             Ports = new List<IPort>();
-            CancellationTime = cancellationTime;
+            CancellationTime = cancellationTime; // Time in milliseconds that will be used to automatically cancell unanswerred call 
         }
 
         public void AddPorts(IEnumerable<IPort> ports) // nethod to attach several ports to base station
@@ -62,7 +62,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
             Ports.Add(port); // include port to main list of ports
 
-            Logger.WriteLine($"{port.PhoneNumber} was Attached to Station"); // Make log line that will inform us about phone attachment to port
+            Logger.WriteLine($"{port.PhoneNumber} was attached to station"); // Make log line that will inform us about phone attachment to port
         }
 
         public void RemovePort(IPort port)
@@ -71,29 +71,29 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
             Ports.Remove(port);
 
-            Logger.WriteLine($"{port.PhoneNumber} was Disconnected from Station");
+            Logger.WriteLine($"{port.PhoneNumber} was disconnected from station");
         }
 
         public void NotifyIncomingCallPort(object sender, OutgoingCallEvent e)
         {
             var senderPort = sender as IPort;
 
-            Logger.WriteLine($"{e.SenderPhoneNumber} is Calling {e.ReceiverPhoneNumber}");
+            Logger.WriteLine($"{e.SenderPhoneNumber} is calling {e.ReceiverPhoneNumber}");
 
             var checkBalanceEvent = new CheckBalanceEvent(e.SenderPhoneNumber); // create an event object for check balance opperations
             OnCheckBalanceInBillingSystem(checkBalanceEvent); // Method that checks if abonent have enough balance to make a call
 
-            Logger.WriteLine($"Billing System Checks {e.SenderPhoneNumber} Balance");
+            Logger.WriteLine($"Checking {e.SenderPhoneNumber} balance");
 
             if (checkBalanceEvent.IsAllowedCall)
             {
-                Logger.WriteLine($"{e.SenderPhoneNumber} has Enough Money to Make Call");
+                Logger.WriteLine($"{e.SenderPhoneNumber} has enough money to make call");
 
                 ConnectPorts(senderPort, e);
             }
             else
             {
-                Logger.WriteLine($"{e.SenderPhoneNumber} has not Enough Money to Make Call");
+                Logger.WriteLine($"{e.SenderPhoneNumber} has not enough money to make call");
 
                 OnNotifyPortOfFailure(new FailureEvent(e.ReceiverPhoneNumber, FailureType.InsufficientFunds),
                     senderPort);
@@ -104,27 +104,27 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
         {
             var receiverPort = Ports.FirstOrDefault(x => x.PhoneNumber == e.ReceiverPhoneNumber); 
 
-            if (receiverPort == null || senderPort == null)
+            if (receiverPort == null || senderPort == null || receiverPort.PortStatus == PortStatus.SwitchedOff)
             {
                 OnNotifyPortOfFailure(new FailureEvent(e.ReceiverPhoneNumber, FailureType.AbonentDoesNotExist),
                     senderPort);
 
-                Logger.WriteLine($"{e.ReceiverPhoneNumber} Does not Exist");
+                Logger.WriteLine($"{e.ReceiverPhoneNumber} does not exist");
             }
             else if (receiverPort.PortStatus != PortStatus.Free)
             {
                 OnNotifyPortOfFailure(new FailureEvent(e.ReceiverPhoneNumber, FailureType.AbonentIsBusy),
                     senderPort);
 
-                Logger.WriteLine($"{e.ReceiverPhoneNumber} is Busy");
+                Logger.WriteLine($"{e.ReceiverPhoneNumber} is busy");
             }
             else
             {
-                CallsWaitingToBeAnswered.Add(senderPort, receiverPort);
+                CallsWaitingToBeAnswered.Add(senderPort, receiverPort); // add aour cakk information to specified list
 
-                PortTimeout.Add(senderPort, SetTimer(senderPort, receiverPort));
+                PortTimeout.Add(senderPort, SetTimer(senderPort, receiverPort)); // setting timer for call waiting to be answered, wich will end call after certain ammout of time if it wasn't answered
 
-                OnNotifyPortOfIncomingCall(new IncomingCallEvent(senderPort.PhoneNumber), receiverPort);
+                OnNotifyPortOfIncomingCall(new IncomingCallEvent(senderPort.PhoneNumber), receiverPort); // This method will call the event that invokes methods that changes telephones statuses and send notifications
             }
         }
 
@@ -134,7 +134,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
             timer.Elapsed += (sender, eventArgs) =>
             {
-                Logger.WriteLine($"{receiverPort.PhoneNumber} Did not Answer Call from {senderPort.PhoneNumber}");
+                Logger.WriteLine($"{receiverPort.PhoneNumber} Did not answered call from {senderPort.PhoneNumber}");
 
                 OnNotifyPortOfFailure(
                     new FailureEvent(receiverPort.PhoneNumber, FailureType.AbonentIsNotResponding),
@@ -147,15 +147,15 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
                 CallsWaitingToBeAnswered.Remove(senderPort);
                 DisposeTimer(senderPort);
 
-                Logger.WriteLine("Base Station Notifies Billing System of Failed Call " +
+                Logger.WriteLine("Base Station Notifies Billing System about Failed Call " +
                                  $"from {senderPort.PhoneNumber} to {receiverPort.PhoneNumber}");
 
                 OnNotifyBillingSystemAboutCallEnd(new UnansweredCallEvent(senderPort.PhoneNumber,
                     receiverPort.PhoneNumber, DateTime.Now));
-            };
+            }; // creating logic wich will track time and perform certain actions if time expires
 
-            timer.AutoReset = false;
-            timer.Enabled = true;
+            timer.AutoReset = false; // switch off timer reset
+            timer.Enabled = true; // enable set timer
 
             return timer;
         }
@@ -168,24 +168,33 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         public void AnswerCall(object sender, AnsweredCallEvent e)
         {
-            if (!(sender is IPort receiverPort)) return;
+            if (!(sender is IPort receiverPort))
+            {
+                return;
+            }
 
             var senderPort = CallsWaitingToBeAnswered.FirstOrDefault(x => x.Value == receiverPort).Key;
 
-            if (senderPort == null) return;
+            if (senderPort == null)
+            {
+                return;
+            }
 
-            DisposeTimer(senderPort);
-            CallsWaitingToBeAnswered.Remove(senderPort);
+            DisposeTimer(senderPort); // dispose timer because call was answered
+            CallsWaitingToBeAnswered.Remove(senderPort); // remove information about call from this specified list
 
             CallsInProgress.Add(new HeldCallEvent(senderPort.PhoneNumber, receiverPort.PhoneNumber)
-            { CallStartTime = e.CallStartTime });
+            { CallStartTime = e.CallStartTime }); // 
 
-            Logger.WriteLine($"{receiverPort.PhoneNumber} Answered Call from {senderPort.PhoneNumber}");
+            Logger.WriteLine($"{receiverPort.PhoneNumber} answered call from {senderPort.PhoneNumber}");
         }
 
         public void RejectCall(object sender, RejectedCallEvent e)
         {
-            if (!(sender is IPort portRejectedCall)) return;
+            if (!(sender is IPort portRejectedCall))
+            {
+                return;
+            }
 
             var suitableCall = CallsInProgress.FirstOrDefault(x =>
                 x.ReceiverPhoneNumber == portRejectedCall.PhoneNumber ||
@@ -193,7 +202,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
             var portWhichNeedToSendNotification = suitableCall is IAnsweredCall answeredCall
                 ? CompleteCallInProgress(portRejectedCall, answeredCall, e)
-                : CancelNotStartedCall(portRejectedCall, e);
+                : CancelNotStartedCall(portRejectedCall, e); // check if call was answered and perform next actions depending on that situation
 
             OnNotifyPortAboutRejectionOfCall(e, portWhichNeedToSendNotification);
         }
@@ -204,12 +213,15 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
                 ? Ports.FirstOrDefault(x => x.PhoneNumber == call.ReceiverPhoneNumber)
                 : Ports.FirstOrDefault(x => x.PhoneNumber == call.SenderPhoneNumber);
 
-            if (portWhichNeedToSendNotification != null) Logger.WriteLine(
-                $"{portRejectedCall.PhoneNumber} Ended Call with {portWhichNeedToSendNotification.PhoneNumber}");
+            if (portWhichNeedToSendNotification != null)
+            {
+                Logger.WriteLine(
+                $"{portRejectedCall.PhoneNumber} ended call with {portWhichNeedToSendNotification.PhoneNumber}");
+            }
 
             CallsInProgress.Remove(call);
 
-            Logger.WriteLine("Base Station Notifies Billing System of Completed call " +
+            Logger.WriteLine("Call completed " +
                              $"from {call.SenderPhoneNumber} to {call.ReceiverPhoneNumber}");
 
             OnNotifyBillingSystemAboutCallEnd(new HeldCallEvent(call.SenderPhoneNumber, call.ReceiverPhoneNumber,
@@ -235,8 +247,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             }
             else
             {
-                portWhichNeedToSendNotification =
-                    CallsWaitingToBeAnswered.FirstOrDefault(x => x.Value == portRejectedCall).Key;
+                portWhichNeedToSendNotification = CallsWaitingToBeAnswered.FirstOrDefault(x => x.Value == portRejectedCall).Key;
 
                 senderPhoneNumber = portWhichNeedToSendNotification.PhoneNumber;
                 receiverPhoneNumber = portRejectedCall.PhoneNumber;
@@ -250,7 +261,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
                 e.CallRejectionTime));
 
             Logger.WriteLine(
-                $"{portRejectedCall.PhoneNumber} Rejected Call from {portWhichNeedToSendNotification.PhoneNumber}");
+                $"{portRejectedCall.PhoneNumber} rejected call from {portWhichNeedToSendNotification.PhoneNumber}");
 
             return portWhichNeedToSendNotification;
         }
@@ -278,7 +289,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             if (NotifyPortOfRejectionOfCall?.GetInvocationList().FirstOrDefault(x => x.Target == port) != null)
             {
                 (NotifyPortOfRejectionOfCall?.GetInvocationList().First(x => x.Target == port) as
-                    EventHandler<RejectedCallEvent>)?.Invoke(this, e);
+                    EventHandler<RejectedCallEvent>)?.Invoke(this, e); // changes port and telephone status and send notification
             }
         }
 

@@ -17,7 +17,7 @@ namespace AutomaticTelephoneStation
         {
             Action<string> displayMethod = Console.WriteLine; // set delegate for standart log writing method
 
-            var company = new Company("ATS", new Billing(new List<ITariff> { new Tariff() }), new BaseStation()); // initialize company with name, billing system and base station.
+            var company = new Company("ATS", new Billing(new List<ITariff> { new Tariff() }), new BaseStation(10000000)); // initialize company with name, billing system and base station.
 
             var tariff = company.Billing.Tariffs.FirstOrDefault(); // select tariff from the list of tariffs available in company
 
@@ -33,9 +33,9 @@ namespace AutomaticTelephoneStation
             var telephone2 = client2.Contract.Equipment.Telephone; // initialize telephone, that 2 client owns
             var telephone3 = client3.Contract.Equipment.Telephone; // initialize telephone, that 3 client owns
 
-            var port1 = client1.Contract.Equipment.Port; // initialize port, that 1 client owns
-            var port2 = client2.Contract.Equipment.Port; // initialize port, that 2 client owns
-            var port3 = client3.Contract.Equipment.Port; // initialize port, that 3 client owns
+            var port1 = client1.Contract.Equipment.Port; // initialize port, that client 1 owns
+            var port2 = client2.Contract.Equipment.Port; // initialize port, that client 2 owns
+            var port3 = client3.Contract.Equipment.Port; // initialize port, that client 3 owns
 
             telephone1.SetDisplayMethod(displayMethod); // set display method to throw notifications by console messages for first telephone (by using generic Action delegate)
             telephone2.SetDisplayMethod(displayMethod); // set display method to throw notifications by console messages for second telephone (by using generic Action delegate)
@@ -85,13 +85,26 @@ namespace AutomaticTelephoneStation
 
             telephone3.DisconnectFromPort();
 
-            for (int i = 1; i < 10; i++)
+            telephone1.Call(port2.PhoneNumber);
+            Thread.Sleep(5000);
+            telephone2.Answer();
+
+            for (int i = 1; i < 3; i++)
             {
                 telephone1.Call(port2.PhoneNumber);
                 telephone2.Answer();
                 Thread.Sleep(i * 1000);
                 telephone2.Reject();
             }
+
+            telephone2.Call(port3.PhoneNumber);
+
+            telephone3.ConnectToPort(port3);
+
+            telephone2.Call(port3.PhoneNumber);
+            telephone3.Answer();
+            Thread.Sleep(3000);
+            telephone3.Reject();
 
             Console.WriteLine(
                 company.Billing.GetCallReport<ICallInformation<IAnsweredCall>, IAnsweredCall>(port1.PhoneNumber,

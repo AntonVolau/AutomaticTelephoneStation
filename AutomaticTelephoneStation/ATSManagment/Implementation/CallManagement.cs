@@ -65,7 +65,7 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 
             var phone = PhoneManagement.GetPhoneByNumber(answeredCall.SenderPhoneNumber);
             var duration = answeredCall.Duration;
-            var callDuration = duration.Hours * 3600 + duration.Minutes * 60;
+            var callDuration = duration.Hours * 60 + duration.Minutes;
             var callCost = phone.Tariff.PricePerMinute * callDuration;
             if (callDuration < 1)
             {

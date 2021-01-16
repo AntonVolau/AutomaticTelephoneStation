@@ -31,7 +31,7 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
             Billing = billing;
             BaseStation = baseStation;
 
-            SubscribeToEvents();
+            SubscribeToEvents(); // company automaticaly subscribes for notifications
         }
 
         public IContract SignContract(IClient client, ITariff selectedTariff)

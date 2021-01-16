@@ -29,9 +29,9 @@ namespace AutomaticTelephoneStation.ATSManagment.Implementation
 
         public void PutCallOnRecord(object sender, ICall call)
         {
-            CallManagement.PutCallOnRecord(call);
+            CallManagement.PutCallOnRecord(call); // checks if call was answered and then record information about it (start and end time, duration etc.)
 
-            BalanceOperation.ReduceBalance(call.SenderPhoneNumber, CallManagement.CalculateCostOfCall(call));
+            BalanceOperation.ReduceBalance(call.SenderPhoneNumber, CallManagement.CalculateCostOfCall(call)); // extract some ammout of money considering tariff and duration of a call
         }
 
         public void PutPhoneOnRecord(object sender, ContractConclusionEvent e)

@@ -45,9 +45,6 @@ namespace AutomaticTelephoneStation.ATSInfo.Implementation
 
         public void DisconnectFromTelephone(object sender, ConnectionEvent e)
         {
-            OnNotifyStationAboutRejectionOfCall(new RejectedCallEvent(PhoneNumber)
-            { CallRejectionTime = DateTime.Now });
-
             PortStatus = PortStatus.SwitchedOff;
             e.Port = this;
         }
